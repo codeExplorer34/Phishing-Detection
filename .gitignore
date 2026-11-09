@@ -35,3 +35,6 @@ Thumbs.db
 
 # Production build used by the end-to-end tests
 .next-e2e/
+
+# Source of webapp/public/loader/angler.svg (copied by webapp/scripts/make_loader_svgs.mjs)
+/Fishing bye bye.svg

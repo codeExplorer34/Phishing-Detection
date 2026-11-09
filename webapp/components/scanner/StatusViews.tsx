@@ -1,35 +1,42 @@
 "use client";
 
+import { Catch } from "@/components/loader/Catch";
+import { LakeScene, SceneCaption } from "@/components/loader/LakeScene";
+import { useStillMotion } from "@/components/motion/Motion";
 import { useProtection } from "@/components/protection/ProtectionProvider";
 import { Alert, Refresh } from "@/components/ui/icons";
+import type { CatchInfo } from "@/lib/catchSequence";
 import { timeAgo } from "@/lib/format";
 import type { Entry } from "@/lib/protectionStore";
 
 import { RiskRing } from "./ResultParts";
 
-export function LoadingView({ slow, tab }: { slow: boolean; tab: "link" | "message" }) {
+interface LoadingViewProps {
+  slow: boolean;
+  tab: "link" | "message";
+  /** Set once the answer is back: something leaps out at the float before the result shows. */
+  caught?: CatchInfo | null;
+  onSkip?: () => void;
+}
+
+export function LoadingView({ slow, tab, caught = null, onSkip }: LoadingViewProps) {
+  const still = useStillMotion();
   return (
-    <div className="flex flex-col gap-5">
-      <div className="flex flex-wrap items-center gap-6">
-        <div className="skeleton h-32 w-32 rounded-full" />
-        <div className="flex flex-1 basis-[260px] flex-col gap-3">
-          <div className="skeleton h-6 w-28" />
-          <div className="skeleton h-8 w-64 max-w-full" />
-          <div className="skeleton h-4 w-80 max-w-full" />
-        </div>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="skeleton h-24" />
-        <div className="skeleton h-24" />
-      </div>
-      <p className="text-sm font-semibold">
-        {tab === "link" ? "Checking the link with both models…" : "Finding the links and checking each one…"}
-      </p>
-      {slow && (
-        <p className="-mt-3 text-sm text-muted">
-          The first check after a quiet spell wakes the models up, so it can take a few seconds.
+    <div className="flex flex-col gap-4">
+      <LakeScene className="lk-window" still={still} onClick={onSkip}
+        catchSlot={caught ? <Catch key={caught.tag} info={caught} /> : null}>
+        {!caught && <SceneCaption>Casting a line</SceneCaption>}
+      </LakeScene>
+      <div className="flex flex-col gap-1">
+        <p className="text-sm font-semibold">
+          {caught ? "Got it. Here comes the result…" : tab === "link" ? "Checking the link with both models…" : "Finding the links and checking each one…"}
         </p>
-      )}
+        {slow && !caught && (
+          <p className="text-sm text-muted">
+            The first check after a quiet spell wakes the models up, so it can take a few seconds.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

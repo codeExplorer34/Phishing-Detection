@@ -6,9 +6,11 @@ import { LinkResult } from "./LinkResult";
 import { MessageResultView } from "./MessageResultView";
 import { useScanner } from "./ScannerProvider";
 import { BlockedBeforeView, ErrorView, LoadingView } from "./StatusViews";
+import { useCatch } from "./useCatch";
 
-function Body() {
+function Body({ caught, tab, skip }: ReturnType<typeof useCatch>) {
   const { state, checkLink } = useScanner();
+  if (caught) return <LoadingView slow={false} tab={tab} caught={caught} onSkip={skip} />;
   switch (state.status) {
     case "idle":
       return <LinkResult result={EXAMPLE_RESULT} example />;
@@ -28,7 +30,9 @@ function Body() {
 /** The "browser window" under the hero. Shows an example until the visitor checks something. */
 export function ResultWindow() {
   const { state } = useScanner();
-  const label = state.status === "idle" ? "Example result" : state.status === "loading" ? "Checking…" : "Your result";
+  const sequence = useCatch(state);
+  const busy = state.status === "loading" || sequence.caught !== null;
+  const label = state.status === "idle" ? "Example result" : busy ? "Checking…" : "Your result";
 
   return (
     <div id="result" className="scroll-mt-24 rounded-[22px] bg-white/55 p-2 shadow-[0_40px_80px_-30px_rgba(11,18,32,0.35),0_0_0_1px_rgba(255,255,255,0.7)]">
@@ -40,8 +44,8 @@ export function ResultWindow() {
           <span className="mx-auto rounded-lg bg-chip px-3.5 py-1 text-xs font-semibold text-muted">{label}</span>
           <span className="w-[49px]" aria-hidden="true" />
         </div>
-        <div aria-live="polite" aria-busy={state.status === "loading"} className="p-5 sm:p-7">
-          <Body />
+        <div aria-live="polite" aria-busy={busy} className="p-5 sm:p-7">
+          <Body {...sequence} />
         </div>
       </div>
     </div>

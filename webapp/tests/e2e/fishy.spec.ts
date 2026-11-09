@@ -7,7 +7,11 @@ async function checkLink(page: Page, url: string) {
   await page.getByRole("button", { name: "Check link" }).first().click();
 }
 
+const INTRO_KEY = "fishy.intro.v1";
+
 test.beforeEach(async ({ page }) => {
+  // The first-visit intro has its own tests below; everywhere else, start as a returning visitor.
+  await page.addInitScript((key) => sessionStorage.setItem(key, "1"), INTRO_KEY);
   await page.goto("/");
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -146,4 +150,59 @@ test("everything is readable with reduced motion", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "What did we find that we didn’t expect?" })).toBeVisible();
   const bob = await page.locator(".bob").first().evaluate((el) => getComputedStyle(el).animationName);
   expect(bob).toBe("none");
+});
+
+test.describe("loading screen", () => {
+  test("first visit shows the intro once, it lifts by itself and a key press skips it", async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ baseURL });
+    const page = await context.newPage();
+    await page.goto("/");
+    const intro = page.getByTestId("intro");
+    await expect(intro).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "How Fishy is your link?" })).toBeAttached();   // page is underneath
+    await expect(intro).toBeHidden({ timeout: 6_000 });                                                     // lifts on its own
+    await page.reload();
+    await expect(intro).toBeHidden();                                                                       // once per session
+    const fresh = await context.browser()!.newContext({ baseURL });
+    const second = await fresh.newPage();
+    await second.goto("/");
+    await expect(second.getByTestId("intro")).toBeVisible();
+    await second.keyboard.press("Space");
+    await expect(second.getByTestId("intro")).toBeHidden();
+    await fresh.close();
+    await context.close();
+  });
+
+  test("the fishing scene shows while checking, then the catch, then the result", async ({ page }) => {
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+    await page.route("**/api/py/scan", async (route) => { await gate; await route.continue(); });
+    await checkLink(page, "http://paypa1-secure-update.com/signin");
+    await expect(result(page).locator(".lk-scene")).toBeVisible();
+    await expect(result(page).getByText("Casting a line")).toBeVisible();
+    await expect(result(page).getByText("Checking the link with both models…")).toBeVisible();
+    release();
+    await expect(result(page).locator('[data-catch="phish"] .lk-tag')).toBeVisible();
+    await expect(result(page).getByText("Phish on the line · risk")).toBeVisible();
+    await expect(result(page).getByRole("heading", { name: "Blocked automatically" })).toBeVisible();
+    await expect(result(page).locator(".lk-scene")).toHaveCount(0);
+  });
+
+  test("a safe link reels in the boot, and Escape skips straight to the result", async ({ page }) => {
+    await checkLink(page, "google.com");
+    await expect(result(page).locator('[data-catch="boot"] .lk-tag')).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(result(page).getByRole("heading", { name: "Looks safe" })).toBeVisible();
+  });
+
+  test("reduced motion: no intro, a still scene, and no catch delay", async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ baseURL, reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/");
+    await expect(page.getByTestId("intro")).toBeHidden();
+    await checkLink(page, "http://paypa1-secure-update.com/signin");
+    await expect(result(page).getByRole("heading", { name: "Blocked automatically" })).toBeVisible();
+    await expect(result(page).locator("[data-catch]")).toHaveCount(0);
+    await context.close();
+  });
 });

@@ -1,0 +1,118 @@
+/* Lake scene behind the angler animation (components/loader). The scene is an illustration with fixed colours.
+   The 600x400 animation sits on a "stage": its float lands at (171, 345) and the angler stands at y ≈ 370. */
+
+.lk-scene {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: size;
+  background: linear-gradient(180deg, #BFE8E6 0%, #F1FAF8 calc(var(--horizon) - 2%));
+}
+.lk-sun {
+  position: absolute; z-index: 0; left: 18%; top: calc(var(--horizon) - 12cqw);
+  width: 11cqw; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #FFF9E3 0 55%, rgba(255, 249, 227, 0) 72%);
+}
+.lk-hills {
+  position: absolute; z-index: 1; left: 0; right: 0; bottom: calc(100% - var(--horizon));
+  background-repeat: repeat-x; background-size: auto 100%;
+}
+.lk-hills-far { height: 13%; opacity: 0.9; background-image: url("/loader/hill-far.svg"); background-position: left bottom; }
+.lk-hills-near { height: 8%; background-image: url("/loader/hill-near.svg"); background-position: 40% bottom; }
+.lk-water {
+  position: absolute; z-index: 2; left: 0; right: 0; top: var(--horizon); bottom: 0; overflow: hidden;
+  background: linear-gradient(180deg, #63C3CB 0%, #2A9FB3 38%, #0D6A80 100%);
+}
+.lk-water::before { content: ""; position: absolute; inset: 0 0 auto; height: 2px; background: rgba(255, 255, 255, 0.55); }
+.lk-glint {
+  position: absolute; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.45);
+  animation: lk-drift 9s ease-in-out infinite alternate;
+}
+.lk-swimmer { position: absolute; width: 5cqw; min-width: 26px; animation: lk-swim 19s linear infinite; }
+.lk-swimmer svg { display: block; width: 100%; height: auto; transform: scaleX(-1); animation: lk-wiggle 1.4s ease-in-out infinite alternate; }
+.lk-grain {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: 0.12; mix-blend-mode: multiply;
+  background-image: url("/loader/grain.svg");
+}
+
+.lk-stage {
+  position: absolute; z-index: 3; width: var(--sw); aspect-ratio: 3 / 2; max-width: none;
+  left: calc(50% - var(--sw) * var(--cx)); top: calc(var(--horizon) - var(--sw) * 0.5);
+}
+.lk-angler { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; max-width: none; }
+.lk-dock {
+  position: absolute; z-index: 2; left: 50.5%; right: -400%; top: 91%; height: 5.5%; border-radius: 3px 0 0 0;
+  background: repeating-linear-gradient(90deg, #C99566 0 22px, #B07D50 22px 23.5px);
+}
+.lk-dock::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 55%; background: #8A5D3B; border-radius: 0 0 0 3px; }
+.lk-post { position: absolute; z-index: 1; top: 96%; width: 1.6%; height: 9%; background: #8A5D3B; border-radius: 0 0 2px 2px; }
+.lk-post::after { content: ""; position: absolute; left: -40%; right: -40%; bottom: 0; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.45); }
+
+/* The catch, at the float */
+.lk-catch { position: absolute; z-index: 4; left: 28.5%; top: 86.25%; width: 0; height: 0; }
+.lk-leaper { position: absolute; left: -5.5cqw; bottom: 0; width: 11cqw; min-width: 46px; animation: lk-leap 1.1s cubic-bezier(.22, 1, .36, 1) both; }
+.lk-leaper svg { display: block; width: 100%; height: auto; }
+.lk-splash {
+  position: absolute; left: -6cqw; top: -1cqw; width: 12cqw; min-width: 50px; aspect-ratio: 4 / 1; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85); opacity: 0; animation: lk-splash 0.9s ease-out 0.05s;
+}
+.lk-tag {
+  position: absolute; left: 0; bottom: 15cqw; display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  padding: 8px 12px; border-radius: 999px; background: #FFFFFF; color: #0B1220;
+  font-weight: 700; font-size: clamp(11px, 1.9cqw, 14px); line-height: 1;
+  box-shadow: 0 8px 20px -8px rgba(11, 18, 32, 0.35), 0 0 0 1px rgba(11, 18, 32, 0.06);
+  transform: translateX(-30%); animation: lk-tag 0.4s ease-out 0.55s both;
+}
+.lk-tag-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Text over the sky and water */
+.lk-hud { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+.lk-caption { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #FFFFFF; text-shadow: 0 1px 2px rgba(6, 40, 50, 0.35); }
+.lk-line { width: 34px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.7); transform-origin: left; animation: lk-reel 1.6s ease-in-out infinite; }
+
+/* In the result window */
+.lk-window { --horizon: 62%; --sw: min(118cqw, 250cqh); --cx: 0.44; height: 230px; border-radius: 14px; }
+.lk-window .lk-hud { justify-content: flex-end; padding-bottom: 16px; }
+.lk-window .lk-caption { font-size: 14px; }
+@media (min-width: 640px) { .lk-window { height: 300px; --horizon: 68%; } }
+
+/* First-visit intro: covers the page, then lifts away on its own (no JavaScript needed). */
+.lk-intro {
+  position: fixed; inset: 0; z-index: 100; --horizon: 64%; --sw: min(74cqw, 128cqh); --cx: 0.44;
+  animation: lk-lift 0.75s cubic-bezier(.7, 0, .2, 1) 2.4s forwards;
+}
+.lk-intro .lk-hud { padding-top: 9cqh; gap: 1.4cqh; }
+.lk-intro-brand { display: flex; align-items: center; gap: 10px; color: #0B1220; font-weight: 800; letter-spacing: -0.04em; font-size: clamp(26px, 4cqw, 42px); line-height: 1; }
+.lk-intro-sub { font-weight: 600; color: #2D4B52; font-size: clamp(13px, 1.6cqw, 17px); }
+.lk-intro .lk-caption { position: absolute; bottom: 8cqh; font-size: clamp(13px, 1.7cqw, 16px); }
+.lk-skip {
+  pointer-events: auto; position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  height: 34px; padding: 0 14px; border-radius: 999px; cursor: pointer; font-size: 13px; font-weight: 600; color: #FFFFFF;
+  background: rgba(11, 18, 32, 0.28); border: 1px solid rgba(255, 255, 255, 0.35); backdrop-filter: blur(6px);
+}
+@media (max-aspect-ratio: 4 / 5) {
+  .lk-intro { --horizon: 60%; --sw: min(190cqw, 125cqh); --cx: 0.5; }
+  .lk-intro .lk-hud { padding-top: 13cqh; }
+}
+html[data-intro="seen"] .lk-intro { display: none; }
+
+@keyframes lk-drift { from { transform: translateX(-10px); opacity: 0.25; } to { transform: translateX(14px); opacity: 0.7; } }
+@keyframes lk-swim { from { left: 105%; } to { left: -12%; } }
+@keyframes lk-wiggle { from { transform: scaleX(-1) rotate(-3deg); } to { transform: scaleX(-1) rotate(3deg); } }
+@keyframes lk-reel { 0%, 100% { transform: scaleX(0.25); } 50% { transform: scaleX(1); } }
+@keyframes lk-leap {
+  0% { opacity: 0; transform: translateY(30%) rotate(20deg) scale(0.7); }
+  18% { opacity: 1; }
+  55% { transform: translateY(-120%) rotate(-14deg) scale(1); }
+  100% { opacity: 1; transform: translateY(-95%) rotate(-4deg) scale(1); }
+}
+@keyframes lk-splash { 0% { opacity: 0.9; transform: scale(0.3); } 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes lk-tag { from { opacity: 0; transform: translate(-30%, 6px); } to { opacity: 1; transform: translate(-30%, 0); } }
+@keyframes lk-lift { to { transform: translateY(-100%); visibility: hidden; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lk-intro { display: none; }
+  .lk-glint, .lk-swimmer, .lk-swimmer svg, .lk-line, .lk-splash { animation: none; }
+  .lk-leaper { animation: none; transform: translateY(-95%); }
+  .lk-tag { animation: none; }
+}

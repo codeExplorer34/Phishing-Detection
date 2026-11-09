@@ -90,6 +90,20 @@ already listening on 8000, it is reused. In development, `/api/py/*` is forwarde
 
 `requirements.txt` in this folder pins `scikit-learn==1.9.1`, the version the models were saved with.
 
+## Loading screen
+
+An angler animation (`public/loader/angler.svg`, an animated SVG exported from After Effects) stands on a jetty over a
+teal lake drawn in CSS (`components/loader/`, `app/loader.css`). It appears in two places:
+
+- **First-visit intro** (`IntroSplash.tsx`): covers the page for about 2.4 seconds once per browser session while the
+  models wake up, then lifts away by itself. Any click or key press skips it. The page is fully rendered underneath.
+- **While a link or message is checked** (`StatusViews.tsx`): when the answer arrives, the catch matches the verdict
+  (`lib/catchSequence.ts`): a phish for Dangerous, a nibbling fish for Suspicious, an old boot for Safe. It shows for
+  1.3 seconds, or until Escape or a click.
+
+Visitors who prefer reduced motion get no intro, a still picture (`angler-still.svg`) and the result straight away.
+To replace the animation: `node scripts/make_loader_svgs.mjs <file.svg>` (writes both the animated and still copies).
+
 ## Accessibility and motion
 
 Keyboard and screen-reader friendly (real buttons, tabs with arrow keys, native `<dialog>` and `<details>`,

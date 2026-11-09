@@ -1,0 +1,8 @@
+url,p_without_slash,p_with_slash
+https://www.google.com,0.6876,0.6876
+https://github.com,0.9575,0.9575
+https://www.bbc.co.uk,0.4235,0.4235
+https://en.wikipedia.org,0.0214,0.0214
+https://www.microsoft.com,0.999,0.999
+https://www.amazon.com,0.0473,0.0473
+http://paypa1.com.account-verify.ru,0.9777,0.9777

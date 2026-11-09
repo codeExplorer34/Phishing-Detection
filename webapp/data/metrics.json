@@ -1,0 +1,35 @@
+{
+  "last_updated": "2026-11-09",
+  "threshold": 0.5,
+  "in_domain": {
+    "model_a_all_features_f1": 0.961,
+    "model_a_no_leakage_f1": 0.955,
+    "model_a_url_only_f1": 0.888,
+    "model_b_binary_f1": 0.891,
+    "model_b_multiclass_macro_f1": 0.927
+  },
+  "cross_dataset": {
+    "web_page": {
+      "links": 1847,
+      "a": 0.868,
+      "b": 0.632,
+      "both": 0.836
+    },
+    "url": {
+      "links": 103904,
+      "a": 0.251,
+      "b": 0.765,
+      "both": 0.714
+    }
+  },
+  "slash_bug": {
+    "domains": 14528,
+    "flip_rate_before": 0.657,
+    "flip_rate_after": 0.0
+  },
+  "ip_mismatches": 1284,
+  "splits": {
+    "url_train": 512890,
+    "url_test": 128223
+  }
+}

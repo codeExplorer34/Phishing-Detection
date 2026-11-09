@@ -1,0 +1,10 @@
+url,p_phishing,verdict
+https://www.google.com,0.005,LEGITIMATE
+https://www.google.com/,0.0,LEGITIMATE
+https://www.amazon.com,0.005,LEGITIMATE
+https://www.microsoft.com,0.005,LEGITIMATE
+https://www.bbc.co.uk/news,0.02,LEGITIMATE
+https://github.com/login,0.9429,PHISHING
+http://192.168.4.2/paypal-login-verify/account.php,0.945,PHISHING
+http://paypa1-secure-update.com/signin,0.895,PHISHING
+http://free-gift-card.xyz/claim.exe,0.475,LEGITIMATE

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "api/**",
+      "excludeFiles": "{tests/**,scripts/**,e2e/**,node_modules/**,.next/**,public/**}",
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  }
+}

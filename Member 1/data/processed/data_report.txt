@@ -1,0 +1,31 @@
+============================================================
+NUMERIC DATASET (dataset_phishing.csv)
+============================================================
+Raw shape: (11430, 89)
+Missing values dropped: 0 | rows removed total: 1
+Constant columns dropped: ['nb_or', 'ratio_nullHyperlinks', 'ratio_intRedirection', 'ratio_intErrors', 'submit_email', 'sfh']
+Clean shape: (11429, 83) | numeric features: 81
+Class balance:
+label
+legitimate    5715
+phishing      5714
+Top 5 correlated features:
+google_index        0.731
+page_rank          -0.511
+nb_www             -0.443
+ratio_digits_url    0.356
+domain_in_title     0.343
+Train: (9143, 83) | Test: (2286, 83) | no URL overlap: OK
+
+============================================================
+URL DATASET (malicious_phish.csv)
+============================================================
+Raw shape: (651191, 2)
+Rows removed (NaN, dupes, conflicting labels): 10078
+Class counts:
+type
+benign        428074
+defacement     95308
+phishing       94086
+malware        23645
+Train: (512890, 3) | Test: (128223, 3) | no URL overlap: OK

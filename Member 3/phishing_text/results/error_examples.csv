@@ -1,0 +1,21 @@
+error,url,type,p_malicious,url_length
+false_positive (benign flagged),oaksterdamgiftshop.com/index.php?option=com_virtuemart&page=shop.browse&category_id=13&Itemid=1&vmcchk=1&Itemid=1,benign,0.999943,113
+false_positive (benign flagged),3dmozi.ro/regi/.red/,benign,0.99990475,20
+false_positive (benign flagged),pastebin.com/Uy6LE0Rf,benign,0.99981445,21
+false_positive (benign flagged),cyberfiber.com/games/3569-alt.games.html,benign,0.99961734,40
+false_positive (benign flagged),cstactical.com/?option=com_k2&view=item&id=304:new-schimdt-bender-reticles&Itemid=447&tmpl=component&print=1,benign,0.99953365,108
+false_positive (benign flagged),fantagraphics.com/index.php?page=shop.product_details&flypage=shop.flypage&product_id=1560&category_id=590&manufacturer_id=0&option=com_virtuemart&Itemid=62&vmcchk=1&Itemid=62,benign,0.99936324,175
+false_positive (benign flagged),pastebin.com/WnMN6ATf,benign,0.99931335,21
+false_positive (benign flagged),app.apple.maximokb.net/?/cgi-bin/WebObjects/MyAppleId.woa/,benign,0.9990833,58
+false_positive (benign flagged),clangilliland.net/index.php?option=com_content&view=article&id=82:septs&catid=1:latest-news&Itemid=214,benign,0.99882036,102
+false_positive (benign flagged),ibm.com/developerworks/java/library/x-restfulsoa/index.html,benign,0.99871874,59
+false_negative (threat missed),www.youtube.com/watch?v=7FjX7r5icV8,phishing,4.1278556e-05,35
+false_negative (threat missed),www.imdb.com/name/nm0423418/,phishing,4.6649748e-05,28
+false_negative (threat missed),www.youtube.com/watch?v=LXZ1OL2U3lY,phishing,5.6189147e-05,35
+false_negative (threat missed),www.huffingtonpost.com/2011/10/05/steve-jobs-health-timeline_n_997313.html,phishing,6.3000785e-05,74
+false_negative (threat missed),randazza.wordpress.com/2010/08/20/no-man-is-an-island-but-wipo-is-no-man/,phishing,0.000378207,73
+false_negative (threat missed),ic5p0films.org,phishing,0.00063324004,14
+false_negative (threat missed),quebec-lea.com,malware,0.001011708,14
+false_negative (threat missed),politicalirony.com/2009/09/08/did-glenn-beck-murder-httpglennbeckrapedandmurderedayounggirlin1990-com/,phishing,0.0013038428,102
+false_negative (threat missed),http://www.118bm.com/images/?us.battle.net/login/en/?ref=bmtlzkhus.battle.net/d3/en/index&amp;amp;app=com-d3,phishing,0.001653621,108
+false_negative (threat missed),en.wikipedia.org/w/index.php?title=Garage_sale,phishing,0.0017975236,46

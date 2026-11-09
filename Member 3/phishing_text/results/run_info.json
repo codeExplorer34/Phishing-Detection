@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "train_rows": 512890,
+  "test_rows": 128223,
+  "max_features": 200000,
+  "ngram_range": [
+    3,
+    5
+  ],
+  "preprocessing": "lowercase, strip scheme, leading www. and trailing /",
+  "total_runtime_seconds": 15.7,
+  "resumed_from_checkpoint": true,
+  "runtime_note": "15.7 s is the time of the final resumed run only; fitted models and CV scores were loaded from checkpoints. See README for full training time."
+}

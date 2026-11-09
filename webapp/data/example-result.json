@@ -1,0 +1,47 @@
+{
+  "input": "http://paypa1-secure-update.com/signin",
+  "url": "http://paypa1-secure-update.com/signin",
+  "host": "paypa1-secure-update.com",
+  "registered_domain": "paypa1-secure-update.com",
+  "verdict": "dangerous",
+  "risk": 93,
+  "trusted": false,
+  "threat_type": "phishing",
+  "type_probabilities": {
+    "benign": 0.0322,
+    "defacement": 0.0,
+    "malware": 0.0,
+    "phishing": 0.9678
+  },
+  "models": {
+    "a": 0.895,
+    "b": 0.9584
+  },
+  "models_disagree": false,
+  "flags": [
+    {
+      "id": "lookalike",
+      "label": "Pretends to be PayPal.",
+      "detail": "“paypa1” uses the digit 1 instead of the letter l.",
+      "severity": "high"
+    },
+    {
+      "id": "signin",
+      "label": "Asks you to sign in.",
+      "detail": "The address contains “signin”.",
+      "severity": "medium"
+    },
+    {
+      "id": "hyphen",
+      "label": "Hyphenated name.",
+      "detail": "“paypa1-secure-update” uses hyphens, a common way to sound official.",
+      "severity": "medium"
+    },
+    {
+      "id": "http",
+      "label": "No HTTPS.",
+      "detail": "Anything you type would not be encrypted.",
+      "severity": "medium"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+checkpoints/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+test-results/
+playwright-report/
+
+# Datasets are large and public: download them from Kaggle (links in the README).
+# Result tables (results/*.csv) are kept because the site and report cite them.
+Member */**/*.csv
+!Member */**/results/*.csv
+!Member */**/outputs/results/*.csv
+
+# Local and secret files
+.env
+.env.*
+!.env.example
+.vercel/
+.DS_Store
+Thumbs.db
+
+# Original full-size photos (the site uses the cropped copies in webapp/public/team)
+/Member *.jpeg
+/Member *.png
+
+# Production build used by the end-to-end tests
+.next-e2e/

@@ -66,7 +66,7 @@ export interface TeamMember {
 }
 
 export const TEAM: TeamMember[] = [
-  { name: "Member 1", role: "Data", initials: "M1", photo: null,
+  { name: "Kishan", role: "Data", initials: "K", photo: "/team/kishan.webp",
     contribution: "Cleaned both datasets and built the train and test splits." },
   { name: "Taha", role: "Model A", initials: "T", photo: "/team/taha.webp",
     contribution: "Trained and compared Logistic Regression, Random Forest and Gradient Boosting on URL and page features." },

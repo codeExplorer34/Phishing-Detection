@@ -17,6 +17,7 @@ export const scanResultSchema = z.object({
   host: z.string(),
   registered_domain: z.string(),
   verdict: verdictSchema,
+  model_verdict: verdictSchema,   // what the two scores alone say, before the trusted list
   risk: z.number().int().min(0).max(100),
   trusted: z.boolean(),
   threat_type: z.string().nullable(),

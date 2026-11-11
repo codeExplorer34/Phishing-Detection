@@ -1,5 +1,5 @@
 import { FillBar, Reveal } from "@/components/motion/Motion";
-import { ACCURACY_ROWS, LAST_UPDATED, METRICS, WORST } from "@/lib/content";
+import { ACCURACY_ROWS, accuracyTakeaway, LAST_UPDATED, METRICS, WORST } from "@/lib/content";
 import { f3, longDate, thousands } from "@/lib/format";
 import { REPO_URL } from "@/lib/site";
 
@@ -25,6 +25,10 @@ export function Accuracy() {
           </p>
         </div>
         <p className="text-[13px] text-muted">Last updated <time dateTime={LAST_UPDATED}>{longDate(LAST_UPDATED)}</time></p>
+      </Reveal>
+
+      <Reveal className="rounded-[18px] border border-mint bg-mint-soft px-5 py-4 text-[17px] leading-relaxed text-body">
+        <b className="font-extrabold text-ink">In short:</b> {accuracyTakeaway()}
       </Reveal>
 
       {/* Phones: one card per dataset, so no sideways scrolling is needed. */}
@@ -81,12 +85,18 @@ export function Accuracy() {
       </Reveal>
 
       <Reveal className="flex flex-wrap gap-6 text-sm leading-relaxed text-muted">
-        <p className="flex-[2] basis-[480px]">
-          F1 combines how many phishing links were caught with how many safe links were wrongly flagged. 1.0 is perfect.
-          Threshold {METRICS.threshold}. Any link that either model saw during training was removed first. On their own
-          test sets the scores are higher: Model A {f3(METRICS.in_domain.model_a_url_only_f1)}, Model B{" "}
-          {f3(METRICS.in_domain.model_b_binary_f1)}.
-        </p>
+        <details className="group flex-[2] basis-[480px]">
+          <summary className="flex items-center gap-2 font-bold text-ink hover:text-teal-deep">
+            What do these numbers mean?
+            <span aria-hidden="true" className="faq-icon w-5 shrink-0 text-center text-[18px] font-normal" />
+          </summary>
+          <p className="mt-2">
+            F1 combines how many phishing links were caught with how many safe links were wrongly flagged. 1.0 is perfect.
+            Threshold {METRICS.threshold}. Any link that either model saw during training was removed first. On their own
+            test sets the scores are higher: Model A {f3(METRICS.in_domain.model_a_url_only_f1)}, Model B{" "}
+            {f3(METRICS.in_domain.model_b_binary_f1)}.
+          </p>
+        </details>
         <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="flex-1 basis-[200px] font-bold text-teal-deep hover:underline">
           See the code and raw results on GitHub
         </a>

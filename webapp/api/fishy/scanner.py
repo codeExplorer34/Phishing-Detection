@@ -2,7 +2,8 @@
 
 Model A (Member 2): Random Forest on 30 URL features -> probability of phishing.
 Model B (Member 3): TF-IDF character n-grams + Logistic Regression -> probability of malicious.
-Risk = average of the two, 0-100. Trusted domains are shown as safe (see allowlist.py).
+Risk = average of the two, 0-100. Both models always run; after scoring, a trusted domain
+(see allowlist.py) overrides the verdict to safe. model_verdict keeps what the scores alone say.
 """
 import json
 from dataclasses import dataclass
@@ -66,7 +67,8 @@ def score_url(raw: str) -> dict:
 
     risk = round((p_a + p_b) / 2 * 100)
     trusted = is_trusted(parsed.host, parsed.is_ip)
-    verdict = "safe" if trusted else verdict_for(risk)
+    model_verdict = verdict_for(risk)
+    verdict = "safe" if trusted else model_verdict
     top_type = max(types, key=types.get)
     threat_type = None if verdict == "safe" or top_type == "benign" else top_type
 
@@ -76,6 +78,7 @@ def score_url(raw: str) -> dict:
         "host": parsed.host,
         "registered_domain": parsed.host if parsed.is_ip else registered_domain(parsed.host),
         "verdict": verdict,
+        "model_verdict": model_verdict,
         "risk": risk,
         "trusted": trusted,
         "threat_type": threat_type,

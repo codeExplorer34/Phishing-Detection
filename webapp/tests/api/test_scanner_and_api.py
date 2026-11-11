@@ -54,6 +54,14 @@ def test_known_examples():
     assert google["verdict"] == "safe" and google["trusted"] is True
     assert google["flags"] == [] and google["threat_type"] is None
     assert google["models_disagree"] is True
+    # The site's copy says google.com averages 34 and is Safe even without the trusted list.
+    assert google["risk"] == 34 and google["model_verdict"] == "safe"
+    assert google["input"] == "google.com" and google["url"] == "http://google.com"
+
+    # A trusted site the models alone would block: the list overrides the verdict, model_verdict keeps the truth.
+    uowd = scanner.score_url("uowdubai.ac.ae")
+    assert uowd["trusted"] is True and uowd["verdict"] == "safe" and uowd["model_verdict"] == "dangerous"
+    assert paypa1["model_verdict"] == paypa1["verdict"]
 
     bank = scanner.score_url("http://www.my-bank-online.info/login.php")
     assert bank["verdict"] == "suspicious" and bank["risk"] == 64

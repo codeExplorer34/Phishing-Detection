@@ -4,7 +4,7 @@ import { useProtection } from "@/components/protection/ProtectionProvider";
 import { Ban, External, Undo } from "@/components/ui/icons";
 import type { ScanResult } from "@/lib/schemas";
 import { safeHref } from "@/lib/url";
-import { headlineFor, percent, threatLabel, VERDICT_STYLES } from "@/lib/verdict";
+import { headlineFor, percent, threatLabel, trustedOverrideNote, VERDICT_STYLES } from "@/lib/verdict";
 
 import { Chip, FlagList, ModelVotes, Note, RiskRing, TrustedRing, UrlLine } from "./ResultParts";
 
@@ -58,12 +58,14 @@ function Actions({ result }: { result: ScanResult }) {
 
 function Explanation({ result }: { result: ScanResult }) {
   const { a, b } = result.models;
-  if (result.trusted) {
+  const override = trustedOverrideNote(result);
+  if (override) {
     return (
       <Note>
-        {result.models_disagree
-          ? <><b className="font-bold text-ink">The models disagree here.</b> Bare homepages look like phishing to Model B because of how its training data was labelled, so Fishy checks a list of well-known sites first.</>
-          : <>This is a well-known site on Fishy’s trusted list.</>}
+        {override}
+        {result.models_disagree && (
+          <> <b className="font-bold text-ink">The models disagree here.</b> Model B is wary of bare homepages because of how its training data was labelled.</>
+        )}
       </Note>
     );
   }
@@ -93,8 +95,7 @@ export function LinkResult({ result, example = false }: LinkResultProps) {
         {result.trusted ? <TrustedRing /> : <RiskRing risk={result.risk} color={style.ring} countUp={!example} />}
         <div className="flex min-w-0 flex-1 basis-[300px] flex-col gap-2">
           <div className="flex flex-wrap gap-2">
-            <Chip className={result.trusted ? "bg-safe-bg text-safe" : style.chip}>{result.trusted ? "Safe" : style.label}</Chip>
-            {result.trusted && <Chip className="bg-chip font-semibold text-ink">Trusted site</Chip>}
+            <Chip className={result.trusted ? "bg-safe-bg text-safe" : style.chip}>{result.trusted ? "Safe · trusted" : style.label}</Chip>
             {threat && <Chip className="bg-chip font-semibold text-ink">{threat}</Chip>}
             {example && <Chip className="bg-mint font-semibold text-teal-deep">Example</Chip>}
           </div>

@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import { request, scanLink } from "@/lib/api";
-import { ACCURACY_ROWS, EXAMPLE_RESULT, FINDINGS, METRICS, WORST } from "@/lib/content";
+import { ACCURACY_ROWS, accuracyTakeaway, EXAMPLE_RESULT, FINDINGS, METRICS, WORST } from "@/lib/content";
 import { toCsv, toHostsFile } from "@/lib/exportBlocklist";
 import { f3, longDate, timeAgo } from "@/lib/format";
 import type { Entry } from "@/lib/protectionStore";
 import { healthSchema } from "@/lib/schemas";
 import { hostOf, safeHref } from "@/lib/url";
-import { barColor, headlineFor, percent, threatLabel } from "@/lib/verdict";
+import { barColor, headlineFor, percent, scoredAsNote, threatLabel, trustedOverrideNote } from "@/lib/verdict";
 
 const e = (host: string, extra: Partial<Entry> = {}): Entry => ({
   id: host, url: `http://${host}/`, host, risk: 90, verdict: "dangerous", threatType: "phishing",
@@ -71,6 +71,20 @@ describe("formatting and verdicts", () => {
     expect(headlineFor({ verdict: "dangerous", trusted: false })).toBe("Blocked automatically");
     expect(headlineFor({ verdict: "safe", trusted: true })).toBe("Looks safe");
   });
+
+  it("explains when the trusted list changed the answer and when it did not", () => {
+    const base = { trusted: true, registered_domain: "google.com" };
+    expect(trustedOverrideNote({ ...base, risk: 34, model_verdict: "safe" }))
+      .toBe("The two models average 34 out of 100, which is Safe anyway. google.com is also on Fishy’s trusted list.");
+    expect(trustedOverrideNote({ ...base, registered_domain: "uowdubai.ac.ae", risk: 70, model_verdict: "dangerous" }))
+      .toBe("The two models average 70 out of 100 (Dangerous). Fishy shows it as safe because uowdubai.ac.ae is on its trusted list of well-known sites.");
+    expect(trustedOverrideNote({ ...base, trusted: false, risk: 90, model_verdict: "dangerous" })).toBeNull();
+  });
+
+  it("notes the added http:// only when Fishy added it", () => {
+    expect(scoredAsNote({ input: "google.com", url: "http://google.com" })).toMatch(/^Scored as http:\/\/google\.com\. /);
+    expect(scoredAsNote({ input: "https://google.com", url: "https://google.com" })).toBeNull();
+  });
 });
 
 describe("content is built from real metrics", () => {
@@ -79,6 +93,8 @@ describe("content is built from real metrics", () => {
     expect(WORST.both).toBe(Math.min(METRICS.cross_dataset.url.both, METRICS.cross_dataset.web_page.both));
     expect(FINDINGS[1].figure).toBe(METRICS.ip_mismatches.toLocaleString("en-US"));
     expect(EXAMPLE_RESULT.verdict).toBe("dangerous");
+    const takeaway = accuracyTakeaway();
+    for (const n of [WORST.a, WORST.b, WORST.both]) expect(takeaway).toContain(f3(n));
   });
 });
 

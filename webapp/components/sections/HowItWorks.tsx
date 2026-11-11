@@ -5,8 +5,9 @@ import { percent } from "@/lib/verdict";
 const STEPS = [
   { title: "1. You paste a link or a message.", body: "For a message, Fishy finds every link inside it." },
   { title: "2. Two models score it.", body: "Model A (Random Forest) checks 30 features of the address. Model B (TF‑IDF with Logistic Regression) checks letter patterns." },
-  { title: "3. The scores are averaged.", body: "Well-known sites like google.com are checked against a short trusted list first." },
-  { title: "4. Fishy acts on the result.", body: "70 or more is blocked and you are alerted. 40 to 69 gets a warning." },
+  { title: "3. The scores are averaged.", body: "The average becomes a risk score out of 100." },
+  { title: "4. Then Fishy checks a short trusted list.", body: "If the site is a well-known one like google.com, Fishy shows it as safe whatever the average, and still shows you both scores." },
+  { title: "5. Fishy acts on the result.", body: "70 or more is blocked and you are alerted. 40 to 69 gets a warning." },
 ];
 
 export function HowItWorks() {
@@ -18,7 +19,7 @@ export function HowItWorks() {
     <section id="how" aria-labelledby="how-title" className="wrap flex flex-col gap-11 pt-32">
       <Reveal className="flex max-w-[720px] flex-col gap-3">
         <h2 id="how-title" className="h-section">How does Fishy decide?</h2>
-        <p className="lede">Two models score the link separately. Fishy averages the two scores and turns the result into one of three answers.</p>
+        <p className="lede">Two models score the link separately. Fishy averages the two scores, checks a short trusted list, and turns the result into one of three answers.</p>
       </Reveal>
       <div className="flex flex-wrap items-start gap-10">
         <div className="flex flex-1 basis-[320px] gap-[18px]">

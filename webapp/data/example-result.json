@@ -4,6 +4,7 @@
   "host": "paypa1-secure-update.com",
   "registered_domain": "paypa1-secure-update.com",
   "verdict": "dangerous",
+  "model_verdict": "dangerous",
   "risk": 93,
   "trusted": false,
   "threat_type": "phishing",

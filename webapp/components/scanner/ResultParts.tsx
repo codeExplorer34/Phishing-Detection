@@ -6,7 +6,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { FillBar } from "@/components/motion/Motion";
 import { ShieldCheck } from "@/components/ui/icons";
 import type { Flag, ScanResult } from "@/lib/schemas";
-import { barColor, percent, VERDICT_STYLES } from "@/lib/verdict";
+import { barColor, percent, scoredAsNote, VERDICT_STYLES } from "@/lib/verdict";
 
 const CIRCUMFERENCE = 2 * Math.PI * 56;
 
@@ -62,17 +62,25 @@ export function Chip({ children, className }: { children: ReactNode; className: 
   return <span className={`inline-flex h-[26px] items-center rounded-full px-2.5 text-xs font-bold ${className}`}>{children}</span>;
 }
 
-/** The checked URL with its host highlighted. Text only, never HTML. */
+/** What the user typed, with its host highlighted, plus a note when Fishy added http://. Text only, never HTML. */
 export function UrlLine({ result }: { result: ScanResult }) {
-  const at = result.url.toLowerCase().indexOf(result.host);
+  const shown = result.input;
+  const at = shown.toLowerCase().indexOf(result.host);
   const tone = result.trusted || result.verdict === "safe" ? "bg-safe-bg" : VERDICT_STYLES[result.verdict].chip.split(" ")[0];
-  if (at < 0) return <p className="break-all font-mono text-sm text-muted">{result.url}</p>;
+  const note = scoredAsNote(result);
   return (
-    <p className="break-all font-mono text-sm text-muted">
-      {result.url.slice(0, at)}
-      <span className={`rounded px-1 py-px text-ink ${tone}`}>{result.url.slice(at, at + result.host.length)}</span>
-      {result.url.slice(at + result.host.length)}
-    </p>
+    <div className="flex flex-col gap-1">
+      {at < 0
+        ? <p className="break-all font-mono text-sm text-muted">{shown}</p>
+        : (
+          <p className="break-all font-mono text-sm text-muted">
+            {shown.slice(0, at)}
+            <span className={`rounded px-1 py-px text-ink ${tone}`}>{shown.slice(at, at + result.host.length)}</span>
+            {shown.slice(at + result.host.length)}
+          </p>
+        )}
+      {note && <p className="break-words text-xs leading-snug text-muted">{note}</p>}
+    </div>
   );
 }
 

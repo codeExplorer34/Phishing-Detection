@@ -29,6 +29,11 @@ export const WORST = {
   both: Math.min(...ACCURACY_ROWS.map((r) => r.both)),
 };
 
+/** One plain-English sentence for the top of the accuracy section, built only from metrics.json. */
+export function accuracyTakeaway(): string {
+  return `On links unlike their training data, Model A alone scored as low as ${f3(WORST.a)} out of 1 and Model B as low as ${f3(WORST.b)}. Fishy’s average never dropped below ${f3(WORST.both)}.`;
+}
+
 export interface Finding {
   figure: string;
   title: string;
@@ -107,7 +112,7 @@ export const FAQS: Faq[] = [
   { question: "Does Fishy open the links it checks?",
     answer: "No. Fishy only reads the text of the address. It never visits the site, so checking a link can’t infect your device or tell the site that you looked." },
   { question: "Why did Model B give google.com 68.8%?",
-    answer: "Model B learned from a dataset where most bare homepages, a name with nothing after it, were phishing pages. So it is wary of any short address. Fishy checks a short list of well-known sites first and marks them safe, but still shows you both models’ scores." },
+    answer: "Model B learned from a dataset where most bare homepages, a name with nothing after it, were phishing pages. So it is wary of any short address. After scoring, Fishy checks a short list of well-known sites and marks them safe. For google.com this changes nothing: the average is 34, which is already Safe. Both scores are still shown." },
   { question: "What data were the models trained on?",
     answer: `Model A learned from 9,143 labelled web pages (the Web page phishing detection dataset). Model B learned from ${thousands(metrics.splits.url_train)} labelled links (the Malicious URLs dataset). Both were cleaned and split so that no link appears in both training and testing.` },
   { question: "Where are my checks stored?",

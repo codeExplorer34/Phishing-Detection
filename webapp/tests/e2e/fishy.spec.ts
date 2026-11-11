@@ -46,8 +46,12 @@ test("dangerous link: blocked, alerted, listed, and survives a reload", async ({
 test("trusted site shows as safe with an honest note", async ({ page }) => {
   await checkLink(page, "google.com");
   await expect(result(page).getByRole("heading", { name: "Looks safe" })).toBeVisible();
-  await expect(result(page).getByText("Trusted site")).toBeVisible();
+  await expect(result(page).getByText("Safe · trusted")).toBeVisible();
+  await expect(result(page)).toContainText("The two models average 34 out of 100, which is Safe anyway.");
   await expect(result(page).getByText("The models disagree here.")).toBeVisible();
+  await expect(result(page)).toContainText("Scored as http://google.com.");
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
   await expect(result(page).getByRole("link", { name: /Open link/ })).toHaveAttribute("rel", /noopener/);
 });
 
@@ -119,9 +123,17 @@ test("exports download real files", async ({ page }, testInfo) => {
 });
 
 test("FAQ works without JavaScript-style widgets", async ({ page }) => {
-  const second = page.locator("details").nth(1);
+  const second = page.locator("#faq details").nth(1);
   await second.locator("summary").click();
   await expect(second).toHaveAttribute("open", "");
+});
+
+test("accuracy leads with a plain takeaway and hides the F1 definition until asked", async ({ page }) => {
+  const accuracy = page.locator("#accuracy");
+  await expect(accuracy.getByText("In short:")).toBeVisible();
+  await expect(accuracy.getByText(/F1 combines/)).toBeHidden();
+  await accuracy.getByText("What do these numbers mean?").click();
+  await expect(accuracy.getByText(/F1 combines/)).toBeVisible();
 });
 
 test("no horizontal scrolling and the mobile menu works", async ({ page, isMobile }) => {

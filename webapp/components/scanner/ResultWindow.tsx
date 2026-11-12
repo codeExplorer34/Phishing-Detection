@@ -35,16 +35,16 @@ export function ResultWindow() {
   const label = state.status === "idle" ? "Example result" : busy ? "Checking…" : "Your result";
 
   return (
-    <div id="result" className="scroll-mt-24 rounded-[22px] bg-white/55 p-2 shadow-[0_40px_80px_-30px_rgba(11,18,32,0.35),0_0_0_1px_rgba(255,255,255,0.7)]">
+    <div id="result" className="scroll-mt-24 rounded-3xl bg-white/55 p-2 shadow-[0_40px_80px_-30px_rgba(11,18,32,0.35),0_0_0_1px_rgba(255,255,255,0.7)]">
       <div className="overflow-hidden rounded-2xl bg-white shadow-[0_0_0_1px_rgba(11,18,32,0.06)]">
-        <div className="flex h-[42px] items-center gap-2 border-b border-hair bg-[#FAFAFB] px-4">
-          <span className="h-[11px] w-[11px] rounded-full bg-[#FF5F57]" />
-          <span className="h-[11px] w-[11px] rounded-full bg-[#FEBC2E]" />
-          <span className="h-[11px] w-[11px] rounded-full bg-[#28C840]" />
-          <span className="mx-auto rounded-lg bg-chip px-3.5 py-1 text-xs font-semibold text-muted">{label}</span>
+        <div className="flex h-10 items-center gap-2 border-b border-hair bg-[#FAFAFB] px-4">
+          <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
+          <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
+          <span className="h-3 w-3 rounded-full bg-[#28C840]" />
+          <span className="mx-auto rounded-lg bg-chip px-4 py-1 text-xs font-semibold text-muted">{label}</span>
           <span className="w-[49px]" aria-hidden="true" />
         </div>
-        <div aria-live="polite" aria-busy={busy} className="p-5 sm:p-7">
+        <div aria-live="polite" aria-busy={busy} className="p-6 sm:p-8">
           <Body {...sequence} />
         </div>
       </div>

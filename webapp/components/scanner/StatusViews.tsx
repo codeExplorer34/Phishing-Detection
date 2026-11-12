@@ -47,8 +47,8 @@ export function ErrorView({ message, retry }: { message: string; retry: () => vo
     <div role="alert" className="flex flex-col items-start gap-4 py-6">
       <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-warn-bg text-warn"><Alert size={24} /></span>
       <div>
-        <h2 className="text-xl font-extrabold tracking-[-0.02em]">{canRetry ? "That didn’t work" : "Nothing to check yet"}</h2>
-        <p className="mt-1 text-[15px] text-body">{message}</p>
+        <h2 className="text-xl font-bold tracking-[-0.02em]">{canRetry ? "That didn’t work" : "Nothing to check yet"}</h2>
+        <p className="mt-1 text-base text-body">{message}</p>
       </div>
       {canRetry && (
         <button type="button" onClick={retry}
@@ -68,12 +68,12 @@ interface BlockedBeforeProps {
 export function BlockedBeforeView({ entry, onCheckAgain }: BlockedBeforeProps) {
   const { unblock } = useProtection();
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center gap-6">
         <RiskRing risk={entry.risk} color="#E11D48" />
         <div className="flex min-w-0 flex-1 basis-[280px] flex-col gap-2">
-          <span className="inline-flex h-[26px] w-fit items-center rounded-full bg-danger-bg px-2.5 text-xs font-bold text-danger">On your blocklist</span>
-          <h2 className="text-[26px] font-extrabold tracking-[-0.03em]">You blocked this site before</h2>
+          <span className="inline-flex h-6 w-fit items-center rounded-full bg-danger-bg px-3 text-xs font-bold text-danger">On your blocklist</span>
+          <h2 className="text-3xl font-bold tracking-[-0.03em]">You blocked this site before</h2>
           <p className="break-all font-mono text-sm text-muted">{entry.host}</p>
           <p className="text-sm text-muted">Blocked {timeAgo(entry.at)}, without asking the models again.</p>
         </div>

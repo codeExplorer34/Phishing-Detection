@@ -19,10 +19,15 @@ test.beforeEach(async ({ page }) => {
 
 test("key facts are in the server-rendered HTML", async ({ request }) => {
   const html = await (await request.get("/")).text();
-  for (const text of ["How Fishy is your link?", "find out if it’s phishing", "How accurate is Fishy?", "0.714", "65.7%", "Hannousse", "Last updated"]) {
+  for (const text of ["How Fishy is your link?", "find out if it’s phishing", "How accurate is Fishy?", "0.714", "65.7%", "Hannousse", "Results from", "Site updated"]) {
     expect(html).toContain(text);
   }
   expect(html).not.toContain("nosnippet");
+});
+
+test("the head script runs: a returning visitor skips the intro", async ({ page }) => {
+  // beforeEach marked this session as seen; the head script must have read it before the page painted.
+  await expect(page.locator("html")).toHaveAttribute("data-intro", "seen");
 });
 
 test("shows a labelled example before any check", async ({ page }) => {
@@ -162,6 +167,42 @@ test("everything is readable with reduced motion", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "What did we find that we didn’t expect?" })).toBeVisible();
   const bob = await page.locator(".bob").first().evaluate((el) => getComputedStyle(el).animationName);
   expect(bob).toBe("none");
+});
+
+test("nav marks the section you are reading", async ({ page, isMobile }) => {
+  test.skip(isMobile, "desktop nav only");
+  await page.locator("#accuracy").scrollIntoViewIfNeeded();
+  await page.evaluate(() => document.getElementById("accuracy")?.scrollIntoView({ block: "center" }));
+  await expect(page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Accuracy" })).toHaveAttribute("aria-current", "location");
+});
+
+test("empty blocklist offers a real example to try", async ({ page }) => {
+  await page.locator("#protection").scrollIntoViewIfNeeded();
+  await expect(page.getByRole("heading", { name: "Nothing blocked yet" })).toBeVisible();
+  await page.getByRole("button", { name: "Try a phishing example" }).click();
+  await expect(result(page).getByRole("heading", { name: "Blocked automatically" })).toBeVisible();
+  await expect(page.getByRole("tab", { name: "Blocklist (1)" })).toBeVisible();
+});
+
+test("footer Privacy link opens the storage answer", async ({ page }) => {
+  await page.getByRole("contentinfo").getByRole("link", { name: "Privacy" }).click();
+  await expect(page.locator("details#privacy")).toHaveAttribute("open", "");
+});
+
+test("unknown pages get a branded 404 with a way back", async ({ page }) => {
+  const response = await page.goto("/this-page-does-not-exist");
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { name: "This page isn’t here" })).toBeVisible();
+  await page.getByRole("link", { name: "Go to the home page" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "How Fishy is your link?" })).toBeVisible();
+});
+
+test("shared links get a preview image", async ({ request }) => {
+  const html = await (await request.get("/")).text();
+  expect(html).toMatch(/property="og:image"/);
+  const image = await request.get("/opengraph-image");
+  expect(image.status()).toBe(200);
+  expect(image.headers()["content-type"]).toContain("image/png");
 });
 
 test.describe("loading screen", () => {

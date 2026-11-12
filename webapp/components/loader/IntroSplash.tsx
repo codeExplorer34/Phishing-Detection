@@ -6,17 +6,6 @@ import { LogoMark } from "@/components/ui/Brand";
 
 import { LakeScene, SceneCaption } from "./LakeScene";
 
-export const INTRO_KEY = "fishy.intro.v1";
-
-/**
- * Runs in <head> before the page paints: the intro shows once per browser session, never for visitors who
- * prefer reduced motion. If storage is blocked it simply shows each time.
- */
-export const INTRO_SCRIPT =
-  `try{var d=document.documentElement;` +
-  `if(sessionStorage.getItem("${INTRO_KEY}")||matchMedia("(prefers-reduced-motion: reduce)").matches){d.dataset.intro="seen"}` +
-  `else{sessionStorage.setItem("${INTRO_KEY}","1")}}catch(e){}`;
-
 function dismiss(): void {
   document.documentElement.dataset.intro = "seen";
 }

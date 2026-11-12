@@ -37,7 +37,7 @@ export function Logo({ size = 30 }: LogoProps) {
   return (
     <span className="flex items-center gap-2">
       <LogoMark size={size} />
-      <span className="text-[22px] font-extrabold tracking-[-0.04em]">Fishy</span>
+      <span className="text-2xl font-extrabold tracking-[-0.04em]">Fishy</span>
     </span>
   );
 }

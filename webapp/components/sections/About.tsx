@@ -7,17 +7,17 @@ import { REPO_URL } from "@/lib/site";
 
 export function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="wrap flex flex-col gap-8 pt-32">
+    <section id="about" aria-labelledby="about-title" className="wrap flex flex-col gap-8 pt-24">
       <Reveal className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
-        <h2 id="about-title" className="text-[clamp(30px,3.8vw,44px)] font-extrabold leading-[1.05] tracking-[-0.04em]">Who built Fishy?</h2>
-        <dl className="grid grid-cols-[96px_minmax(0,1fr)] gap-x-5 gap-y-3 text-[15px] leading-normal">
+        <h2 id="about-title" className="h-section">Who built Fishy?</h2>
+        <dl className="grid grid-cols-[96px_minmax(0,1fr)] gap-x-6 gap-y-3 text-base leading-normal">
           <dt className="font-bold">What</dt>
           <dd className="text-body">A phishing-link checker built for CSIT375 AI for Cybersecurity at the University of Wollongong.</dd>
           <dt className="font-bold">When</dt><dd className="text-body">November 2026</dd>
           <dt className="font-bold">Code</dt>
           <dd><a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-teal-deep hover:underline">Open source on GitHub</a></dd>
           <dt className="font-bold">AI use</dt><dd className="text-body">We used Claude to help write code and text. Details are in our report.</dd>
-          <dt className="font-bold">Updated</dt><dd className="text-body"><time dateTime={LAST_UPDATED}>{longDate(LAST_UPDATED)}</time></dd>
+          <dt className="font-bold">Results from</dt><dd className="text-body"><time dateTime={LAST_UPDATED}>{longDate(LAST_UPDATED)}</time></dd>
         </dl>
       </Reveal>
 
@@ -34,18 +34,18 @@ export function About() {
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-1.5 p-5">
+            <div className="flex flex-col gap-2 p-6">
               <b className="text-base font-bold">{m.name}</b>
-              <span className="text-[13px] font-semibold text-teal-deep">{m.role}</span>
+              <span className="text-sm font-semibold text-teal-deep">{m.role}</span>
               <p className="text-sm leading-normal text-muted">{m.contribution}</p>
             </div>
           </Reveal>
         ))}
       </ul>
 
-      <Reveal className="mt-16 flex flex-wrap gap-12 border-t border-line pt-7">
-        <h2 id="sources" className="flex-1 basis-[200px] text-xl font-extrabold tracking-[-0.02em]">Sources</h2>
-        <ol className="flex flex-[3] basis-[560px] list-decimal flex-col gap-2.5 pl-5 text-sm leading-relaxed text-body">
+      <Reveal className="mt-16 flex flex-wrap gap-12 border-t border-line pt-8">
+        <h2 id="sources" className="flex-1 basis-[200px] text-2xl font-bold tracking-[-0.02em]">Sources</h2>
+        <ol className="flex flex-[3] basis-[560px] list-decimal flex-col gap-3 pl-6 text-sm leading-relaxed text-body">
           {SOURCES.map((s) => (
             <li key={s.href}>
               {s.text}{s.emphasis && <> <i>{s.emphasis}</i></>}{s.tail} {" "}

@@ -48,17 +48,17 @@ export function BlockedDialog({ pending, onClose }: BlockedDialogProps) {
       className="m-auto w-[min(520px,calc(100%-32px))] rounded-3xl bg-white p-0 text-ink shadow-[0_40px_100px_-30px_rgba(11,18,32,0.55)]"
     >
       {pending && (
-        <div className="flex flex-col gap-5 p-7 sm:p-8">
+        <div className="flex flex-col gap-6 p-8 sm:p-8">
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-danger-bg text-danger"><Ban size={28} /></span>
-          <div className="flex flex-col gap-2.5">
-            <h2 id="blocked-title" className="text-[26px] font-extrabold tracking-[-0.04em]">This link is blocked.</h2>
+          <div className="flex flex-col gap-3">
+            <h2 id="blocked-title" className="text-3xl font-bold tracking-[-0.03em]">This link is blocked.</h2>
             <p id="blocked-desc" className="text-base leading-relaxed text-body">
               Fishy rated <span className="font-mono text-ink break-all">{pending.host}</span>{" "}
-              <b className="font-extrabold text-danger">{pending.risk} out of 100</b>.
+              <b className="font-bold text-danger">{pending.risk} out of 100</b>.
               {pending.reason ? ` ${pending.reason}` : ""}
             </p>
           </div>
-          <ul className="flex flex-col gap-2 rounded-2xl bg-soft px-[18px] py-4 text-sm text-body">
+          <ul className="flex flex-col gap-2 rounded-2xl bg-soft px-4 py-4 text-sm text-body">
             <li>• Never type a password on a page you reached from an email or text.</li>
             <li>• If you need the real site, type its address yourself.</li>
           </ul>

@@ -52,6 +52,13 @@ body {
   outline-offset: 2px;
 }
 
+/* No single word left alone on a last line. */
+h1, h2, h3 { text-wrap: balance; }
+p, li, dd { text-wrap: pretty; }
+
+/* Pressed feedback on every button and button-styled link. */
+button:not(:disabled):active, .press:active { transform: translateY(1px); }
+
 .wrap {
   width: 100%;
   max-width: 1160px;
@@ -62,19 +69,18 @@ body {
 
 .card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 24px;
   box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.08), 0 1px 2px rgba(11, 18, 32, 0.06);
 }
 
 .h-section {
-  font-size: clamp(32px, 4.4vw, 52px);
-  line-height: 1.05;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
+  font-size: clamp(36px, 4.4vw, 48px);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.035em;
 }
 
-.lede { font-size: clamp(17px, 1.6vw, 19px); line-height: 1.55; color: var(--color-body); text-wrap: pretty; }
+.lede { font-size: clamp(18px, 1.6vw, 20px); line-height: 28px; color: var(--color-body); }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes toastIn { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
@@ -88,9 +94,14 @@ details > summary::-webkit-details-marker { display: none; }
 details .faq-icon::before { content: "+"; }
 details[open] .faq-icon::before { content: "−"; }
 
+/* Phone menu links rise in one after another (60 ms apart). */
+@keyframes menu-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.menu-item { animation: menu-rise 500ms cubic-bezier(.22, 1, .36, 1) calc(var(--i) * 60ms) both; }
+
 dialog::backdrop { background: rgba(11, 18, 32, 0.45); backdrop-filter: blur(4px); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .bob { animation: none; }
+  .menu-item { animation: none; }
 }

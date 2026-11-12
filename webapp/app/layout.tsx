@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
-import { INTRO_SCRIPT, IntroSplash } from "@/components/loader/IntroSplash";
+import { IntroSplash } from "@/components/loader/IntroSplash";
 import { LAST_UPDATED, TEAM } from "@/lib/content";
+import { INTRO_SCRIPT } from "@/lib/headScripts";
 import { REPO_URL, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 import "./globals.css";

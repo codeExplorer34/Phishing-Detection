@@ -72,7 +72,7 @@ export function ScanPanel() {
   return (
     <div className="flex w-full flex-col items-center">
       <form onSubmit={submit} noValidate
-        className="flex w-full max-w-[640px] flex-col gap-5 rounded-[20px] bg-white py-[18px] pl-[22px] pr-[18px] text-left shadow-[0_20px_50px_-18px_rgba(11,18,32,0.35),0_0_0_1px_rgba(11,18,32,0.06)]">
+        className="flex w-full max-w-[640px] flex-col gap-6 rounded-3xl bg-white py-4 pl-6 pr-4 text-left shadow-[0_20px_50px_-18px_rgba(11,18,32,0.35),0_0_0_1px_rgba(11,18,32,0.06)]">
         {tab === "link" ? (
           <div id={`${ids.tabs}-link`} role="tabpanel" aria-labelledby={`${ids.tabs}-tab-link`}>
             <label htmlFor="scan-input" className="sr-only">Link to check</label>
@@ -81,7 +81,7 @@ export function ScanPanel() {
               onChange={(e) => { setLink(e.target.value); if (fieldError) setFieldError(null); }}
               placeholder="Paste a link, like example.com/login"
               aria-invalid={Boolean(fieldError)} aria-describedby={fieldError ? ids.error : undefined}
-              className="w-full bg-transparent py-1 font-mono text-[16px] text-ink outline-none placeholder:font-sans placeholder:text-muted sm:text-[17px]" />
+              className="w-full bg-transparent py-1 font-mono text-base text-ink outline-none placeholder:font-sans placeholder:text-muted sm:text-lg" />
           </div>
         ) : (
           <div id={`${ids.tabs}-message`} role="tabpanel" aria-labelledby={`${ids.tabs}-tab-message`}>
@@ -91,17 +91,17 @@ export function ScanPanel() {
               placeholder="Paste an email or text message. Fishy will check every link in it."
               aria-invalid={Boolean(fieldError)}
               aria-describedby={`${ids.counter}${fieldError ? ` ${ids.error}` : ""}`}
-              className="w-full resize-y bg-transparent text-[16px] leading-relaxed text-ink outline-none placeholder:text-muted" />
+              className="w-full resize-y bg-transparent text-base leading-relaxed text-ink outline-none placeholder:text-muted" />
           </div>
         )}
         {fieldError && <p id={ids.error} role="alert" className="-mt-2 text-sm font-semibold text-danger">{fieldError}</p>}
         <div className="flex items-center justify-between gap-3">
-          <div role="tablist" aria-label="What to check" className="inline-flex gap-1 rounded-full bg-chip p-[3px]">
+          <div role="tablist" aria-label="What to check" className="inline-flex gap-1 rounded-full bg-chip p-1">
             {TABS.map((t) => (
               <button key={t.id} id={`${ids.tabs}-tab-${t.id}`} ref={(el) => { tabRefs.current[t.id] = el; }}
                 type="button" role="tab" aria-selected={tab === t.id} aria-controls={`${ids.tabs}-${t.id}`}
                 tabIndex={tab === t.id ? 0 : -1} onClick={() => switchTab(t.id)} onKeyDown={onTabKey}
-                className={`h-9 rounded-full px-4 text-[13px] font-semibold transition ${tab === t.id ? "bg-white text-ink shadow-[0_1px_2px_rgba(11,18,32,0.12)]" : "text-muted hover:text-ink"}`}>
+                className={`h-9 rounded-full px-4 text-sm font-semibold transition ${tab === t.id ? "bg-white text-ink shadow-[0_1px_2px_rgba(11,18,32,0.12)]" : "text-muted hover:text-ink"}`}>
                 {t.label}
               </button>
             ))}
@@ -109,11 +109,11 @@ export function ScanPanel() {
           <div className="flex items-center gap-2">
             {tab === "message" && (
               <>
-                <span id={ids.counter} className="hidden font-mono text-[11px] text-muted sm:inline">
+                <span id={ids.counter} className="hidden font-mono text-xs text-muted sm:inline">
                   {message.length.toLocaleString("en-US")} / {MAX_MESSAGE.toLocaleString("en-US")}
                 </span>
                 <button type="button" onClick={() => { setMessage(SAMPLE_MESSAGE); setFieldError(null); }}
-                  className="h-9 rounded-lg px-2.5 text-[13px] font-semibold text-teal-deep hover:bg-mint-soft">
+                  className="h-9 rounded-lg px-3 text-sm font-semibold text-teal-deep hover:bg-mint-soft">
                   Load a sample
                 </button>
               </>
@@ -124,10 +124,10 @@ export function ScanPanel() {
       </form>
 
       <div className="mt-4 flex max-w-[860px] flex-wrap items-center justify-center gap-2">
-        <span className="text-[13px] font-semibold text-[#134e57]">Try</span>
+        <span className="text-sm font-semibold text-[#134e57]">Try</span>
         {EXAMPLE_LINKS.map((ex) => (
           <button key={ex.url} type="button" onClick={() => tryExample(ex.url)} disabled={busy}
-            className="h-8 max-w-full truncate rounded-full bg-white/75 px-3 font-mono text-[12px] text-ink backdrop-blur-sm transition hover:bg-white disabled:opacity-60">
+            className="h-8 max-w-full truncate rounded-full bg-white/75 px-3 font-mono text-xs text-ink backdrop-blur-sm transition hover:bg-white disabled:opacity-60">
             {ex.label}
           </button>
         ))}

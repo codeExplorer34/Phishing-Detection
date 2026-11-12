@@ -102,6 +102,7 @@ export const SOURCES: Source[] = [
 ];
 
 export interface Faq {
+  id?: string;        // anchor for links like the footer's "Privacy"
   question: string;
   answer: string;
 }
@@ -115,7 +116,7 @@ export const FAQS: Faq[] = [
     answer: "Model B learned from a dataset where most bare homepages, a name with nothing after it, were phishing pages. So it is wary of any short address. After scoring, Fishy checks a short list of well-known sites and marks them safe. For google.com this changes nothing: the average is 34, which is already Safe. Both scores are still shown." },
   { question: "What data were the models trained on?",
     answer: `Model A learned from 9,143 labelled web pages (the Web page phishing detection dataset). Model B learned from ${thousands(metrics.splits.url_train)} labelled links (the Malicious URLs dataset). Both were cleaned and split so that no link appears in both training and testing.` },
-  { question: "Where are my checks stored?",
+  { id: "privacy", question: "Where are my checks stored?",
     answer: "Your blocklist, history and alerts stay in this browser and never leave it. The links you check are sent to Fishy’s server only to be scored. They are not saved or logged there." },
   { question: "Can I use Fishy instead of antivirus?",
     answer: "No. Fishy is a student project. On links unlike its training data it still misses some phishing and flags some safe sites, as the accuracy table shows. Use it as a second opinion, alongside your browser’s built-in protection." },

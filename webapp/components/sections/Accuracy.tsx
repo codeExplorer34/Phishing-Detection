@@ -15,7 +15,7 @@ function Score({ value, best, ours }: { value: number; best: boolean; ours?: boo
 
 export function Accuracy() {
   return (
-    <section id="accuracy" aria-labelledby="accuracy-title" className="wrap flex flex-col gap-8 pt-32">
+    <section id="accuracy" aria-labelledby="accuracy-title" className="wrap flex flex-col gap-8 pt-24">
       <Reveal className="flex flex-wrap items-end justify-between gap-6">
         <div className="flex max-w-[720px] flex-col gap-3">
           <h2 id="accuracy-title" className="h-section">How accurate is Fishy?</h2>
@@ -24,19 +24,19 @@ export function Accuracy() {
             score, but its worst result is far better than either model’s worst.
           </p>
         </div>
-        <p className="text-[13px] text-muted">Last updated <time dateTime={LAST_UPDATED}>{longDate(LAST_UPDATED)}</time></p>
+        <p className="text-sm text-muted">Results from <time dateTime={LAST_UPDATED}>{longDate(LAST_UPDATED)}</time></p>
       </Reveal>
 
-      <Reveal className="rounded-[18px] border border-mint bg-mint-soft px-5 py-4 text-[17px] leading-relaxed text-body">
-        <b className="font-extrabold text-ink">In short:</b> {accuracyTakeaway()}
+      <Reveal className="rounded-2xl border border-mint bg-mint-soft px-6 py-4 text-lg leading-relaxed text-body">
+        <b className="font-bold text-ink">In short:</b> {accuracyTakeaway()}
       </Reveal>
 
       {/* Phones: one card per dataset, so no sideways scrolling is needed. */}
       <div className="grid gap-3 sm:hidden">
         {[...ACCURACY_ROWS.map((r) => ({ ...r, worst: false })), { name: "Worst of the two", links: 0, ...WORST, worst: true }].map((row) => (
-          <Reveal key={row.name} className="card p-5">
+          <Reveal key={row.name} className="card p-6">
             <h3 className="font-bold">{row.name}</h3>
-            {row.links > 0 && <p className="text-[13px] text-muted">{thousands(row.links)} links, F1 score</p>}
+            {row.links > 0 && <p className="text-sm text-muted">{thousands(row.links)} links, F1 score</p>}
             <dl className="mt-4 flex flex-col gap-3">
               {([["Model A", row.a, false], ["Model B", row.b, false], ["Both averaged (Fishy)", row.both, true]] as const).map(([label, value, ours]) => (
                 <div key={label} className={ours ? "-mx-2 rounded-xl bg-mint-soft px-2 py-2" : ""}>
@@ -44,7 +44,7 @@ export function Accuracy() {
                     <dt className={ours ? "font-bold" : "text-body"}>{label}</dt>
                     <dd className={`font-mono ${ours ? "font-semibold text-teal-deep" : ""}`}>{f3(value)}</dd>
                   </div>
-                  {!row.worst && <FillBar value={value} height={6} className="mt-1.5" color={ours ? "#0f766e" : "#0B1220"} track={ours ? "#CCFBF1" : "#F1F2F5"} />}
+                  {!row.worst && <FillBar value={value} height={6} className="mt-2" color={ours ? "#0f766e" : "#0B1220"} track={ours ? "#CCFBF1" : "#F1F2F5"} />}
                 </div>
               ))}
             </dl>
@@ -53,32 +53,32 @@ export function Accuracy() {
       </div>
 
       <Reveal className="card hidden overflow-x-auto sm:block">
-        <table className="w-full min-w-[720px] border-collapse text-[15px]">
+        <table className="w-full min-w-[720px] border-collapse text-base">
           <caption className="sr-only">F1 score of each model on links it never saw during training</caption>
           <thead>
-            <tr className="text-left text-[13px] text-muted">
-              <th scope="col" className="px-5 py-[18px] font-semibold">F1 score on links the models never saw</th>
-              <th scope="col" className="px-5 py-[18px] font-semibold">Model A</th>
-              <th scope="col" className="px-5 py-[18px] font-semibold">Model B</th>
-              <th scope="col" className="px-5 py-[18px] font-bold text-ink">Both averaged (Fishy)</th>
+            <tr className="text-left text-sm text-muted">
+              <th scope="col" className="px-6 py-4 font-semibold">F1 score on links the models never saw</th>
+              <th scope="col" className="px-6 py-4 font-semibold">Model A</th>
+              <th scope="col" className="px-6 py-4 font-semibold">Model B</th>
+              <th scope="col" className="px-6 py-4 font-bold text-ink">Both averaged (Fishy)</th>
             </tr>
           </thead>
           <tbody>
             {ACCURACY_ROWS.map((row) => (
               <tr key={row.name} className="border-t border-hair">
-                <th scope="row" className="px-5 py-[18px] text-left font-semibold">
-                  {row.name}<br /><span className="text-[13px] font-normal text-muted">{thousands(row.links)} links</span>
+                <th scope="row" className="px-6 py-4 text-left font-semibold">
+                  {row.name}<br /><span className="text-sm font-normal text-muted">{thousands(row.links)} links</span>
                 </th>
-                <td className="px-5 py-[18px]"><Score value={row.a} best={row.a >= row.b} /></td>
-                <td className="px-5 py-[18px]"><Score value={row.b} best={row.b > row.a} /></td>
-                <td className="bg-mint-soft px-5 py-[18px]"><Score value={row.both} best={false} ours /></td>
+                <td className="px-6 py-4"><Score value={row.a} best={row.a >= row.b} /></td>
+                <td className="px-6 py-4"><Score value={row.b} best={row.b > row.a} /></td>
+                <td className="bg-mint-soft px-6 py-4"><Score value={row.both} best={false} ours /></td>
               </tr>
             ))}
             <tr className="border-t-2 border-line">
-              <th scope="row" className="px-5 py-[18px] text-left font-extrabold">Worst of the two</th>
-              <td className="px-5 py-[18px] font-mono text-danger">{f3(WORST.a)}</td>
-              <td className="px-5 py-[18px] font-mono">{f3(WORST.b)}</td>
-              <td className="bg-mint-soft px-5 py-[18px] font-mono font-semibold text-teal-deep">{f3(WORST.both)}</td>
+              <th scope="row" className="px-6 py-4 text-left font-bold">Worst of the two</th>
+              <td className="px-6 py-4 font-mono text-danger">{f3(WORST.a)}</td>
+              <td className="px-6 py-4 font-mono">{f3(WORST.b)}</td>
+              <td className="bg-mint-soft px-6 py-4 font-mono font-semibold text-teal-deep">{f3(WORST.both)}</td>
             </tr>
           </tbody>
         </table>
@@ -88,7 +88,7 @@ export function Accuracy() {
         <details className="group flex-[2] basis-[480px]">
           <summary className="flex items-center gap-2 font-bold text-ink hover:text-teal-deep">
             What do these numbers mean?
-            <span aria-hidden="true" className="faq-icon w-5 shrink-0 text-center text-[18px] font-normal" />
+            <span aria-hidden="true" className="faq-icon w-5 shrink-0 text-center text-lg font-normal" />
           </summary>
           <p className="mt-2">
             F1 combines how many phishing links were caught with how many safe links were wrongly flagged. 1.0 is perfect.

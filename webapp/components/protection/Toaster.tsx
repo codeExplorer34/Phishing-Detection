@@ -35,12 +35,12 @@ export function Toaster({ toasts, onDismiss }: ToasterProps) {
           <div
             key={t.id}
             role="status"
-            className={`pointer-events-auto flex w-full max-w-sm animate-[toastIn_0.25s_ease-out] items-center gap-3 rounded-2xl bg-white py-2.5 pl-2.5 pr-2 shadow-[0_12px_30px_-12px_rgba(11,18,32,0.35)] ring-1 ${ring}`}
+            className={`pointer-events-auto flex w-full max-w-sm animate-[toastIn_0.25s_ease-out] items-center gap-3 rounded-2xl bg-white py-3 pl-3 pr-2 shadow-[0_12px_30px_-12px_rgba(11,18,32,0.35)] ring-1 ${ring}`}
           >
-            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] ${badge}`}><Icon size={16} /></span>
+            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${badge}`}><Icon size={16} /></span>
             <span className="flex min-w-0 flex-1 flex-col">
-              <b className="text-[13px] font-bold">{t.title}</b>
-              {t.detail && <span className="truncate font-mono text-[11px] text-muted">{t.detail}</span>}
+              <b className="text-sm font-bold">{t.title}</b>
+              {t.detail && <span className="truncate font-mono text-xs text-muted">{t.detail}</span>}
             </span>
             <button type="button" onClick={() => onDismiss(t.id)} aria-label="Dismiss"
               className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-chip hover:text-ink">

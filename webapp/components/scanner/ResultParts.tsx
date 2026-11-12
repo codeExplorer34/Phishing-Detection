@@ -42,7 +42,7 @@ export function RiskRing({ risk, color, size = 128, countUp = true }: RiskRingPr
           transition={{ duration: animateIn ? 0.9 : 0, ease: [0.22, 1, 0.36, 1] }} />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center" aria-hidden="true">
-        <span className="text-[38px] font-extrabold leading-none tracking-[-0.04em]" style={{ color }}>{shown}</span>
+        <span className="text-4xl font-extrabold leading-none tracking-[-0.04em]" style={{ color }}>{shown}</span>
         <span className="mt-1 text-xs text-muted">risk out of 100</span>
       </div>
     </div>
@@ -59,7 +59,7 @@ export function TrustedRing({ size = 128 }: { size?: number }) {
 }
 
 export function Chip({ children, className }: { children: ReactNode; className: string }) {
-  return <span className={`inline-flex h-[26px] items-center rounded-full px-2.5 text-xs font-bold ${className}`}>{children}</span>;
+  return <span className={`inline-flex h-6 items-center rounded-full px-3 text-xs font-bold ${className}`}>{children}</span>;
 }
 
 /** What the user typed, with its host highlighted, plus a note when Fishy added http://. Text only, never HTML. */
@@ -95,7 +95,7 @@ export function ModelVotes({ result }: { result: ScanResult }) {
       {MODELS.map((m) => {
         const p = result.models[m.key];
         return (
-          <div key={m.key} className="flex flex-col gap-2.5 rounded-[14px] bg-soft p-4">
+          <div key={m.key} className="flex flex-col gap-3 rounded-2xl bg-soft p-4">
             <div className="flex items-baseline justify-between gap-3">
               <span className="text-sm font-bold">{m.name} says</span>
               <span className="font-mono text-sm">{percent(p)}</span>
@@ -112,11 +112,11 @@ export function ModelVotes({ result }: { result: ScanResult }) {
 export function FlagList({ flags, title }: { flags: Flag[]; title: string }) {
   if (flags.length === 0) return null;
   return (
-    <div className="flex flex-col gap-2.5">
-      <h3 className="text-[15px] font-bold">{title}</h3>
-      <ul className="grid gap-2 text-[13px] leading-snug sm:grid-cols-2">
+    <div className="flex flex-col gap-3">
+      <h3 className="text-base font-bold">{title}</h3>
+      <ul className="grid gap-2 text-sm leading-snug sm:grid-cols-2">
         {flags.map((f) => (
-          <li key={f.id} className="rounded-xl border border-hair px-3 py-2.5">
+          <li key={f.id} className="rounded-xl border border-hair px-3 py-3">
             <b className="font-bold">{f.label}</b> <span className="text-muted">{f.detail}</span>
           </li>
         ))}
@@ -127,5 +127,5 @@ export function FlagList({ flags, title }: { flags: Flag[]; title: string }) {
 
 export function Note({ children, tone = "info" }: { children: ReactNode; tone?: "info" | "warn" }) {
   const styles = tone === "warn" ? "border-warn-line bg-warn-soft text-[#78350F]" : "border-mint bg-mint-soft text-body";
-  return <div className={`rounded-[14px] border px-4 py-3.5 text-sm leading-relaxed ${styles}`}>{children}</div>;
+  return <div className={`rounded-2xl border px-4 py-4 text-sm leading-relaxed ${styles}`}>{children}</div>;
 }
